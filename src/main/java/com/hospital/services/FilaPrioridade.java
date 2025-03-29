@@ -1,6 +1,7 @@
 package com.hospital.services;
 
 import com.hospital.models.Paciente;
+import com.hospital.utils.ConsoleColors;
 
 import java.time.format.DateTimeFormatter;
 import java.util.PriorityQueue;
@@ -27,19 +28,28 @@ public class FilaPrioridade {
 
     public void exibirFila() {
         if (fila.isEmpty()) {
-            System.out.println("A fila está vazia.");
+            System.out.println(ConsoleColors.YELLOW + "A fila está vazia." + ConsoleColors.RESET);
         } else {
-            System.out.println("\n======= Fila de Pacientes =======");
+            System.out.println(ConsoleColors.CYAN + "\n======= Fila de Pacientes =======" + ConsoleColors.RESET);
             System.out.printf("%-10s %-20s %-15s %-25s\n", "Prioridade", "Nome", "Classificação", "Data de Cadastro");
             System.out.println("--------------------------------------------------");
-            fila.forEach(paciente -> System.out.printf(
-                    "%-10d %-20s %-15s %-25s\n",
-                    paciente.getClassificacaoRisco().getNivel(),
-                    paciente.getNome(),
-                    paciente.getClassificacaoRisco().name(),
-                    paciente.getDataCadastro().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
-            ));
-            System.out.println("==================================");
+            fila.forEach(paciente -> {
+                String cor = switch (paciente.getClassificacaoRisco()) {
+                    case VERMELHO -> ConsoleColors.RED;
+                    case LARANJA -> ConsoleColors.ORANGE;
+                    case AMARELO -> ConsoleColors.YELLOW;
+                    case VERDE -> ConsoleColors.GREEN;
+                    case AZUL -> ConsoleColors.BLUE;
+                };
+                System.out.printf(
+                        cor + "%-10d %-20s %-15s %-25s\n" + ConsoleColors.RESET,
+                        paciente.getClassificacaoRisco().getNivel(),
+                        paciente.getNome(),
+                        paciente.getClassificacaoRisco().name(),
+                        paciente.getDataCadastro().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
+                );
+            });
+            System.out.println(ConsoleColors.CYAN + "==================================" + ConsoleColors.RESET);
         }
     }
 

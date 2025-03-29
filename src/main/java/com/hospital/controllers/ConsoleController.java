@@ -3,6 +3,7 @@ package com.hospital.controllers;
 import com.hospital.models.EClassificacaoRisco;
 import com.hospital.models.Paciente;
 import com.hospital.services.FilaPrioridade;
+import com.hospital.utils.ConsoleColors;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -22,12 +23,13 @@ public class ConsoleController {
     }
 
     private static void exibirMenu() {
-        System.out.println("\n===== Sistema de Triagem de Pacientes =====");
+        System.out.println(
+                ConsoleColors.CYAN + "\n===== Sistema de Triagem de Pacientes =====" + ConsoleColors.RESET);
         System.out.println("1. Adicionar Paciente");
         System.out.println("2. Atender Paciente");
         System.out.println("3. Exibir Fila");
         System.out.println("4. Sair");
-        System.out.println("===========================================");
+        System.out.println(ConsoleColors.CYAN + "==========================================" + ConsoleColors.RESET);
         System.out.print("Escolha uma opção: ");
     }
 
@@ -124,13 +126,14 @@ public class ConsoleController {
 
     private static EClassificacaoRisco obterClassificacaoRisco() {
         while (true) {
-            System.out.println("Selecione a classificação de risco:");
-            System.out.println("1. VERMELHO (Emergência)");
-            System.out.println("2. LARANJA (Muito Urgente)");
-            System.out.println("3. AMARELO (Urgente)");
-            System.out.println("4. VERDE (Pouco Urgente)");
-            System.out.println("5. AZUL (Não Urgente)");
-            System.out.print("Digite o número da classificação de risco: ");
+            System.out.println(ConsoleColors.CYAN + "Selecione a classificação de risco:" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.RED + "1. VERMELHO (Emergência)" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.ORANGE + "2. LARANJA (Muito Urgente)" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.YELLOW + "3. AMARELO (Urgente)" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.GREEN + "4. VERDE (Pouco Urgente)" + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.BLUE + "5. AZUL (Não Urgente)" + ConsoleColors.RESET);
+            System.out.print(
+                    ConsoleColors.CYAN + "Digite o número da classificação de risco: " + ConsoleColors.RESET);
 
             try {
                 int risco = scanner.nextInt();
@@ -138,21 +141,33 @@ public class ConsoleController {
 
                 switch (risco) {
                     case 1:
+                        System.out.println(
+                                ConsoleColors.RED + "Classificação VERMELHO selecionada." + ConsoleColors.RESET);
                         return EClassificacaoRisco.VERMELHO;
                     case 2:
+                        System.out.println(
+                                ConsoleColors.ORANGE + "Classificação LARANJA selecionada." + ConsoleColors.RESET);
                         return EClassificacaoRisco.LARANJA;
                     case 3:
+                        System.out.println(
+                                ConsoleColors.YELLOW + "Classificação AMARELO selecionada." + ConsoleColors.RESET);
                         return EClassificacaoRisco.AMARELO;
                     case 4:
+                        System.out.println(
+                                ConsoleColors.GREEN + "Classificação VERDE selecionada." + ConsoleColors.RESET);
                         return EClassificacaoRisco.VERDE;
                     case 5:
+                        System.out.println(
+                                ConsoleColors.BLUE + "Classificação AZUL selecionada." + ConsoleColors.RESET);
                         return EClassificacaoRisco.AZUL;
                     default:
-                        System.out.println("Classificação de risco inválida.");
+                        System.out.println(
+                                ConsoleColors.RED + "Classificação de risco inválida. Tente novamente." + ConsoleColors.RESET);
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número entre 1 e 5.");
+                System.out.println(
+                        ConsoleColors.RED + "Entrada inválida. Digite um número entre 1 e 5." + ConsoleColors.RESET);
                 scanner.next();
                 scanner.nextLine();
             }
