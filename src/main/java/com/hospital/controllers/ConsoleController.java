@@ -61,84 +61,100 @@ public class ConsoleController {
     }
 
     private static void adicionarPaciente() {
-        System.out.print("Digite o nome do paciente: ");
-        String nome = scanner.nextLine();
-
-        System.out.print("Digite o CPF do paciente: ");
-        String cpf = scanner.nextLine();
-
-        System.out.print("Digite o telefone do paciente: ");
-        String telefone = scanner.nextLine();
-
-        System.out.print("Digite o endereço do paciente: ");
-        String endereco = scanner.nextLine();
-
-        System.out.print("Digite os sintomas do paciente: ");
-        String sintomas = scanner.nextLine();
-
-        System.out.print("O paciente tem febre? (true/false): ");
-        boolean febre = lerBoolean();
-
+        String              nome               = lerNome();
+        String              cpf                = lerCPF();
+        String              telefone           = lerTelefone();
+        String              endereco           = lerEndereco();
+        String              sintomas           = lerSintomas();
+        boolean             febre              = lerFebre();
         EClassificacaoRisco classificacaoRisco = obterClassificacaoRisco();
 
-        if (classificacaoRisco != null) {
-            Paciente paciente = new Paciente(
-                    classificacaoRisco,
-                    febre,
-                    sintomas,
-                    endereco,
-                    telefone,
-                    cpf,
-                    nome
-            );
-            filaPrioridade.adicionarPaciente(paciente);
-            System.out.println("Paciente " + nome + " adicionado à fila com sucesso.");
-        } else {
-            System.out.println("Não foi possível adicionar o paciente. Classificação de risco inválida.");
-        }
+        Paciente paciente = new Paciente(
+                classificacaoRisco,
+                febre,
+                sintomas,
+                endereco,
+                telefone,
+                cpf,
+                nome
+        );
+        filaPrioridade.adicionarPaciente(paciente);
+        System.out.println("Paciente " + nome + " adicionado à fila com sucesso.");
     }
 
-    private static boolean lerBoolean() {
+    private static String lerNome() {
+        System.out.print("Digite o nome do paciente: ");
+        return scanner.nextLine();
+    }
+
+    private static String lerCPF() {
+        System.out.print("Digite o CPF do paciente: ");
+        return scanner.nextLine();
+    }
+
+    private static String lerTelefone() {
+        System.out.print("Digite o telefone do paciente: ");
+        return scanner.nextLine();
+    }
+
+    private static String lerEndereco() {
+        System.out.print("Digite o endereço do paciente: ");
+        return scanner.nextLine();
+    }
+
+    private static String lerSintomas() {
+        System.out.print("Digite os sintomas do paciente: ");
+        return scanner.nextLine();
+    }
+
+    private static boolean lerFebre() {
         while (true) {
-            try {
-                boolean valor = scanner.nextBoolean();
-                scanner.nextLine();
-                return valor;
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Por favor, digite 'true' ou 'false'.");
-                scanner.next();
+            System.out.print("O paciente tem febre? (s/n): ");
+            String resposta = scanner.nextLine().trim().toLowerCase();
+            if (resposta.equals("s")) {
+                return true;
+            } else if (resposta.equals("n")) {
+                return false;
+            } else {
+                System.out.println("Entrada inválida. Por favor, digite 's' para sim ou 'n' para não.");
             }
         }
     }
 
     private static EClassificacaoRisco obterClassificacaoRisco() {
-        System.out.println("Selecione a classificação de risco:");
-        System.out.println("1. VERMELHO (Emergência)");
-        System.out.println("2. LARANJA (Muito Urgente)");
-        System.out.println("3. AMARELO (Urgente)");
-        System.out.println("4. VERDE (Pouco Urgente)");
-        System.out.println("5. AZUL (Não Urgente)");
-        System.out.print("Digite o número da classificação de risco: ");
+        while (true) {
+            System.out.println("Selecione a classificação de risco:");
+            System.out.println("1. VERMELHO (Emergência)");
+            System.out.println("2. LARANJA (Muito Urgente)");
+            System.out.println("3. AMARELO (Urgente)");
+            System.out.println("4. VERDE (Pouco Urgente)");
+            System.out.println("5. AZUL (Não Urgente)");
+            System.out.print("Digite o número da classificação de risco: ");
 
-        try {
-            int risco = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                int risco = scanner.nextInt();
+                scanner.nextLine();
 
-            return switch (risco) {
-                case 1 -> EClassificacaoRisco.VERMELHO;
-                case 2 -> EClassificacaoRisco.LARANJA;
-                case 3 -> EClassificacaoRisco.AMARELO;
-                case 4 -> EClassificacaoRisco.VERDE;
-                case 5 -> EClassificacaoRisco.AZUL;
-                default -> {
-                    System.out.println("Classificação de risco inválida.");
-                    yield null;
+                switch (risco) {
+                    case 1:
+                        return EClassificacaoRisco.VERMELHO;
+                    case 2:
+                        return EClassificacaoRisco.LARANJA;
+                    case 3:
+                        return EClassificacaoRisco.AMARELO;
+                    case 4:
+                        return EClassificacaoRisco.VERDE;
+                    case 5:
+                        return EClassificacaoRisco.AZUL;
+                    default:
+                        System.out.println("Classificação de risco inválida.");
+                        break;
                 }
-            };
-        } catch (InputMismatchException e) {
-            System.out.println("Entrada inválida. Digite um número entre 1 e 5.");
-            scanner.next();
-            return null;
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número entre 1 e 5.");
+                scanner.next();
+                scanner.nextLine();
+            }
         }
     }
 
