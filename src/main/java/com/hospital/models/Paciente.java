@@ -1,4 +1,4 @@
-package src.main.java.com.hospital.models;
+package com.hospital.models;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,7 +14,14 @@ public class Paciente {
     private EClassificacaoRisco classificacaoRisco;
     private final LocalDateTime dataCadastro;
 
-    public Paciente(EClassificacaoRisco classificacaoRisco, boolean febre, String sintomas, String endereco, String telefone, String cpf, String nome) {
+    public Paciente(
+            EClassificacaoRisco classificacaoRisco,
+            boolean febre,
+            String sintomas,
+            String endereco,
+            String telefone,
+            String cpf,
+            String nome) {
         this.id = UUID.randomUUID();
         this.dataCadastro = LocalDateTime.now();
         this.classificacaoRisco = classificacaoRisco;

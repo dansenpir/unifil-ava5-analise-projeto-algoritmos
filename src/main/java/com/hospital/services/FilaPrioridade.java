@@ -1,7 +1,6 @@
-package src.main.java.com.hospital.services;
+package com.hospital.services;
 
-
-import src.main.java.com.hospital.models.Paciente;
+import com.hospital.models.Paciente;
 
 import java.util.PriorityQueue;
 import java.util.Comparator;

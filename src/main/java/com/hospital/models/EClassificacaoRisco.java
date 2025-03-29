@@ -1,4 +1,4 @@
-package src.main.java.com.hospital.models;
+package com.hospital.models;
 
 public enum EClassificacaoRisco {
     VERMELHO(1, "Necessitam de atendimento imediato. CASOS DE EMERGÊNCIA"),
@@ -10,7 +10,9 @@ public enum EClassificacaoRisco {
     private final int nivel;
     private final String descricao;
 
-    EClassificacaoRisco(int nivel, String descricao) {
+    EClassificacaoRisco(
+            int nivel,
+            String descricao) {
         this.nivel = nivel;
         this.descricao = descricao;
     }
