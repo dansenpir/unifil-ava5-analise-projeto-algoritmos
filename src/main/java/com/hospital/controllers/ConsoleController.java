@@ -4,6 +4,7 @@ import com.hospital.models.EClassificacaoRisco;
 import com.hospital.models.Paciente;
 import com.hospital.services.FilaPrioridade;
 import com.hospital.utils.ConsoleColors;
+import com.hospital.utils.ValidacaoUtils;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -37,7 +38,8 @@ public class ConsoleController {
         try {
             return scanner.nextInt();
         } catch (InputMismatchException e) {
-            System.out.println("Opção inválida. Por favor, digite um número entre 1 e 4.");
+            System.out.println(
+                    ConsoleColors.RED + "Opção inválida. Por favor, digite um número entre 1 e 4." + ConsoleColors.RESET);
             scanner.next();
             return 0;
         }
@@ -59,7 +61,8 @@ public class ConsoleController {
                 System.out.println("Saindo do sistema...");
                 break;
             default:
-                System.out.println("Opção inválida. Por favor, digite um número entre 1 e 4.");
+                System.out.println(
+                        ConsoleColors.RED + "Opção inválida. Por favor, digite um número entre 1 e 4." + ConsoleColors.RESET);
         }
     }
 
@@ -82,44 +85,91 @@ public class ConsoleController {
                 nome
         );
         filaPrioridade.adicionarPaciente(paciente);
-        System.out.println("Paciente " + nome + " adicionado à fila com sucesso.");
+        System.out.println(
+                ConsoleColors.GREEN + "Paciente " + nome + " adicionado à fila com sucesso." + ConsoleColors.RESET);
     }
 
     private static String lerNome() {
-        System.out.print("Digite o nome do paciente: ");
-        return scanner.nextLine();
+        String nome;
+        do {
+            System.out.print("Digite o nome do paciente: ");
+            nome = scanner.nextLine().trim();
+            if (!ValidacaoUtils.validarNome(nome)) {
+                System.out.println(
+                        ConsoleColors.RED + "Nome inválido. O nome deve ter pelo menos 3 caracteres." + ConsoleColors.RESET);
+            }
+        }
+        while (!ValidacaoUtils.validarNome(nome));
+        return nome;
     }
 
     private static String lerCPF() {
-        System.out.print("Digite o CPF do paciente: ");
-        return scanner.nextLine();
+        String cpf;
+        do {
+            System.out.print("Digite o CPF do paciente (somente números): ");
+            cpf = scanner.nextLine().trim();
+            if (!ValidacaoUtils.validarCPF(cpf)) {
+                System.out.println(
+                        ConsoleColors.RED + "CPF inválido. O CPF deve conter 11 dígitos numéricos." + ConsoleColors.RESET);
+            }
+        }
+        while (!ValidacaoUtils.validarCPF(cpf));
+        return cpf;
     }
 
     private static String lerTelefone() {
-        System.out.print("Digite o telefone do paciente: ");
-        return scanner.nextLine();
+        String telefone;
+        do {
+            System.out.print("Digite o telefone do paciente (somente números, DDD incluso): ");
+            telefone = scanner.nextLine().trim();
+            if (!ValidacaoUtils.validarTelefone(telefone)) {
+                System.out.println(
+                        ConsoleColors.RED + "Telefone inválido. O telefone deve conter 11 dígitos numéricos (DDD " +
+                                "incluso)." + ConsoleColors.RESET);
+            }
+        }
+        while (!ValidacaoUtils.validarTelefone(telefone));
+        return telefone;
     }
 
     private static String lerEndereco() {
-        System.out.print("Digite o endereço do paciente: ");
-        return scanner.nextLine();
+        String endereco;
+        do {
+            System.out.print("Digite o endereço do paciente: ");
+            endereco = scanner.nextLine().trim();
+            if (!ValidacaoUtils.validarEndereco(endereco)) {
+                System.out.println(
+                        ConsoleColors.RED + "Endereço inválido. O endereço deve ter entre 5 e 200 caracteres." + ConsoleColors.RESET);
+            }
+        }
+        while (!ValidacaoUtils.validarEndereco(endereco));
+        return endereco;
     }
 
     private static String lerSintomas() {
-        System.out.print("Digite os sintomas do paciente: ");
-        return scanner.nextLine();
+        String sintomas;
+        do {
+            System.out.print("Digite os sintomas do paciente: ");
+            sintomas = scanner.nextLine().trim();
+            if (!ValidacaoUtils.validarSintomas(sintomas)) {
+                System.out.println(
+                        ConsoleColors.RED + "Sintomas inválidos. A descrição dos sintomas deve ter entre 3 e 500 " +
+                                "caracteres." + ConsoleColors.RESET);
+            }
+        }
+        while (!ValidacaoUtils.validarSintomas(sintomas));
+        return sintomas;
     }
 
     private static boolean lerFebre() {
         while (true) {
             System.out.print("O paciente tem febre? (s/n): ");
             String resposta = scanner.nextLine().trim().toLowerCase();
-            if (resposta.equals("s")) {
-                return true;
-            } else if (resposta.equals("n")) {
-                return false;
+            if (ValidacaoUtils.validarFebre(resposta)) {
+                return resposta.equals("s") || resposta.equals("sim");
             } else {
-                System.out.println("Entrada inválida. Por favor, digite 's' para sim ou 'n' para não.");
+                System.out.println(
+                        ConsoleColors.RED + "Entrada inválida. Por favor, digite 's' para sim ou 'n' para não." + ConsoleColors.RESET);
             }
         }
     }
@@ -177,9 +227,10 @@ public class ConsoleController {
     private static void atenderPaciente() {
         Paciente pacienteAtendido = filaPrioridade.atenderPaciente();
         if (pacienteAtendido != null) {
-            System.out.println("Paciente atendido: \n" + pacienteAtendido);
+            System.out.println(
+                    ConsoleColors.GREEN + "Paciente atendido: \n" + pacienteAtendido + ConsoleColors.RESET);
         } else {
-            System.out.println("Não há pacientes na fila.");
+            System.out.println(ConsoleColors.YELLOW + "Não há pacientes na fila." + ConsoleColors.RESET);
         }
     }
 
