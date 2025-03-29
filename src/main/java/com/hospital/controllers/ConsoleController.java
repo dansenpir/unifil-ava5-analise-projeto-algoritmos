@@ -22,11 +22,12 @@ public class ConsoleController {
     }
 
     private static void exibirMenu() {
-        System.out.println("\nSistema de Triagem de Pacientes");
+        System.out.println("\n===== Sistema de Triagem de Pacientes =====");
         System.out.println("1. Adicionar Paciente");
         System.out.println("2. Atender Paciente");
         System.out.println("3. Exibir Fila");
         System.out.println("4. Sair");
+        System.out.println("===========================================");
         System.out.print("Escolha uma opção: ");
     }
 
@@ -161,7 +162,7 @@ public class ConsoleController {
     private static void atenderPaciente() {
         Paciente pacienteAtendido = filaPrioridade.atenderPaciente();
         if (pacienteAtendido != null) {
-            System.out.println("Paciente atendido: " + pacienteAtendido);
+            System.out.println("Paciente atendido: \n" + pacienteAtendido);
         } else {
             System.out.println("Não há pacientes na fila.");
         }

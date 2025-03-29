@@ -2,6 +2,7 @@ package com.hospital.services;
 
 import com.hospital.models.Paciente;
 
+import java.time.format.DateTimeFormatter;
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
@@ -21,11 +22,6 @@ public class FilaPrioridade {
 
     public Paciente atenderPaciente() {
         Paciente pacienteAtendido = fila.poll();
-        if (pacienteAtendido != null) {
-            System.out.println("Paciente atendido: " + pacienteAtendido.getNome());
-        } else {
-            System.out.println("Nenhum paciente na fila para atender.");
-        }
         return pacienteAtendido;
     }
 
@@ -33,10 +29,17 @@ public class FilaPrioridade {
         if (fila.isEmpty()) {
             System.out.println("A fila está vazia.");
         } else {
-            System.out.println("Fila de pacientes:");
-            fila.forEach(paciente -> System.out.println(
-                    paciente.getClassificacaoRisco() + " - " + paciente.getNome() + " (Cadastrado em: " + paciente.getDataCadastro() + ")"
+            System.out.println("\n======= Fila de Pacientes =======");
+            System.out.printf("%-10s %-20s %-15s %-25s\n", "Prioridade", "Nome", "Classificação", "Data de Cadastro");
+            System.out.println("--------------------------------------------------");
+            fila.forEach(paciente -> System.out.printf(
+                    "%-10d %-20s %-15s %-25s\n",
+                    paciente.getClassificacaoRisco().getNivel(),
+                    paciente.getNome(),
+                    paciente.getClassificacaoRisco().name(),
+                    paciente.getDataCadastro().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
             ));
+            System.out.println("==================================");
         }
     }
 

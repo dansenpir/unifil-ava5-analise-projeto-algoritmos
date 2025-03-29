@@ -1,6 +1,7 @@
 package com.hospital.models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class Paciente {
@@ -97,18 +98,29 @@ public class Paciente {
         return dataCadastro;
     }
 
+
     @Override
     public String toString() {
-        return "Paciente{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", sintomas='" + sintomas + '\'' +
-                ", febre=" + febre +
-                ", classificacaoRisco=" + classificacaoRisco +
-                ", dataCadastro=" + dataCadastro +
-                '}';
+        return String.format(
+                "Paciente: %s\n" +
+                        "CPF: %s\n" +
+                        "Telefone: %s\n" +
+                        "Endereço: %s\n" +
+                        "Sintomas: %s\n" +
+                        "Febre: %s\n" +
+                        "Classificação de Risco: %s (Nível %d)\n" +
+                        "Data de Cadastro: %s",
+                nome,
+                cpf,
+                telefone,
+                endereco,
+                sintomas,
+                febre ?
+                        "Sim" :
+                        "Não",
+                classificacaoRisco.getDescricao(),
+                classificacaoRisco.getNivel(),
+                dataCadastro.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
+        );
     }
 }
